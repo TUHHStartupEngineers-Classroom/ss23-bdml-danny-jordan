@@ -14,14 +14,16 @@ website:
         text: Home
       - text: "Journal"
         menu: 
-          - text: "01 Tidyverse"
-            file: content/01_journal/01_tidyverse.qmd
-          - text: "02 Data Acquisition"
-            file: content/01_journal/02_data_acquisition.qmd
-          - text: "03 Data Wrangling"
-            file: content/01_journal/03_data_wrangling.qmd
-          - text: "04 Data Visualization"
-            file: content/01_journal/04_data_visualization.qmd
+          - text: "01 Challenge1_Machine_Learning_Fundamentals"
+            file: content/01_journal/01_Challenge1_Machine_Learning_Fundamentals.qmd
+          - text: "02_Challenge2_Supervised_ML-Regression2"
+            file: content/01_journal/02_Challenge2_Supervised_ML-Regression2.qmd
+          - text: "03 Challenge3_automated_machine_learning_with_h20_1"
+            file: content/01_journal/03_Challenge3_automated_machine_learning_with_h20_1.qmd
+          - text: "04 Challenge4_performance_measures"
+            file: content/01_journal/04_Challenge4_performance_measures.qmd
+          - text: "05 Challenge5_Explaining_Black-Box_Models_With_LIME"
+            file: content/01_journal/05_Challenge5_Explaining_Black-Box_Models_With_LIME.qmd            
       - text: "Class notes"
         file: content/02_notes/05_class_notes.qmd
       - text: "Links"
