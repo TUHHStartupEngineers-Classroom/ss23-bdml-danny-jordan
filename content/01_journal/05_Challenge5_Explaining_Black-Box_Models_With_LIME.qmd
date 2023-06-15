@@ -2,8 +2,8 @@
 title: "05_Explaining_Black-Box_Models_With_LIME"
 author: "Danny Jordan"
 ---
-
-
+TESTTEST
+# Load Libraries
 ```{r}
 
 
@@ -16,6 +16,7 @@ library(tidyquant)
 library(lime)
 library(ggplot2)
 
+```
 # Load Data
 employee_attrition_tbl <- read_csv("C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/datasets-1067-1925-WA_Fn-UseC_-HR-Employee-Attrition.txt")
 definitions_raw_tbl    <- read_excel("C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/data_definitions.xlsx", sheet = 1, col_names = FALSE)
@@ -110,4 +111,3 @@ explanation %>%
   as.tibble() %>%
   select(feature:prediction)
 
-```
