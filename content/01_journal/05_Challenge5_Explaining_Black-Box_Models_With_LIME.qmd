@@ -1,0 +1,113 @@
+---
+title: "05_Explaining_Black-Box_Models_With_LIME"
+author: "Danny Jordan"
+---
+
+
+```{r}
+
+
+library(rsample)
+library(h2o)
+library(recipes)
+library(readxl)
+library(tidyverse)
+library(tidyquant)
+library(lime)
+library(ggplot2)
+
+# Load Data
+employee_attrition_tbl <- read_csv("C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/datasets-1067-1925-WA_Fn-UseC_-HR-Employee-Attrition.txt")
+definitions_raw_tbl    <- read_excel("C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/data_definitions.xlsx", sheet = 1, col_names = FALSE)
+
+# Processing Pipeline
+source("C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/data_processing_pipeline.R")
+
+employee_attrition_readable_tbl <- process_hr_data_readable(employee_attrition_tbl, definitions_raw_tbl)
+
+# Split into test and train
+set.seed(seed = 1113)
+split_obj <- rsample::initial_split(employee_attrition_readable_tbl, prop = 0.85)
+
+# Assign training and test data
+train_readable_tbl <- training(split_obj)
+test_readable_tbl  <- testing(split_obj)
+
+
+# ML Preprocessing Recipe 
+recipe_obj <- recipe(Attrition ~ ., data = train_readable_tbl) %>%
+  step_zv(all_predictors()) %>%
+  step_mutate_at(c("JobLevel", "StockOptionLevel"), fn = as.factor) %>% 
+  prep()
+
+recipe_obj
+
+train_tbl <- bake(recipe_obj, new_data = train_readable_tbl)
+test_tbl  <- bake(recipe_obj, new_data = test_readable_tbl)
+
+
+# 2. Models ----
+
+h2o.init()
+
+automl_leader <- h2o.loadModel("C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/Challeng3_automated_machine_learning_h2O/StackedEnsemble_BestOfFamily_3_AutoML_2_20230615_64046")
+automl_leader
+
+
+# 3. LIME ----
+
+# 3.1 Making Predictions ----
+
+
+predictions_tbl <- automl_leader %>% 
+  h2o.predict(newdata = as.h2o(test_tbl)) %>%
+  as.tibble() %>%
+  bind_cols(
+    test_tbl %>%
+      select(Attrition, EmployeeNumber)
+  )
+
+predictions_tbl
+
+test_tbl %>%
+  slice(1) %>%
+  glimpse()
+
+# 3.2 Single Explanation ----
+
+explainer <- train_tbl %>%
+  select(-Attrition) %>%
+  lime(
+    model           = automl_leader,
+    bin_continuous  = TRUE,
+    n_bins          = 4,
+    quantile_bins   = TRUE
+  )
+
+explainer
+
+
+explanation <- test_tbl %>%
+  slice(1) %>%
+  select(-Attrition) %>%
+  lime::explain(
+    
+    # Pass our explainer object
+    explainer = explainer,
+    # Because it is a binary classification model: 1
+    n_labels   = 1,
+    # number of features to be returned
+    n_features = 8,
+    # number of localized linear models
+    n_permutations = 5000,
+    # Let's start with 1
+    kernel_width   = 1
+  )
+
+explanation
+
+explanation %>%
+  as.tibble() %>%
+  select(feature:prediction)
+
+```
