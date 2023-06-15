@@ -153,16 +153,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  <span class="dropdown-text">01 Challenge1_Machine_Learning_Fundamentals</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../content/01_journal/02_data_acquisition.html">
- <span class="dropdown-text">02 Data Acquisition</span></a>
+    <a class="dropdown-item" href="../../content/01_journal/02_Challenge2_Supervised_ML-Regression2.html">
+ <span class="dropdown-text">02_Challenge2_Supervised_ML-Regression2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../content/01_journal/03_data_wrangling.html">
- <span class="dropdown-text">03 Data Wrangling</span></a>
+    <a class="dropdown-item" href="../../content/01_journal/03_Challenge3_automated_machine_learning_with_h20_1.html">
+ <span class="dropdown-text">03 Challenge3_automated_machine_learning_with_h20_1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../content/01_journal/04_data_visualization.html">
- <span class="dropdown-text">04 Data Visualization</span></a>
+    <a class="dropdown-item" href="../../content/01_journal/04_Challenge4_performance_measures.html">
+ <span class="dropdown-text">04 Challenge4_performance_measures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../content/01_journal/05_Challenge5_Explaining_Black-Box_Models_With_LIME.html">
+ <span class="dropdown-text">05 Challenge5_Explaining_Black-Box_Models_With_LIME</span></a>
   </li>  
     </ul>
 </li>
@@ -218,7 +222,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
 
 </header><p>#Load all neccessary libraries</p>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-1_1b891a2de869a3961b91ab3b9fb65322">
+<div class="cell" data-hash="02_Challenge2_Supervised_ML-Regression2_cache/html/unnamed-chunk-1_29f2f92cc45fa59d0174cc924a24ebec">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Standard</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -274,7 +278,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <section id="load-the-bike_orderlines_tbl-data-from-the-specified-file" class="level1" data-number="1"><h1 data-number="1">
 <span class="header-section-number">1</span> Load the ‘bike_orderlines_tbl’ data from the specified file</h1>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-2_641c573ac78d1399af27676ee5885d52">
+<div class="cell" data-hash="02_Challenge2_Supervised_ML-Regression2_cache/html/unnamed-chunk-2_e7ade29f38e13d6ebfcf0d5ff102ebb8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>bike_orderlines_tbl <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/bike_orderlines.rds"</span>)</span>
 <span id="cb10-2"><a href="#cb10-2"></a>bike_orderlines_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -368,13 +372,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="02_data_acquisition_files/figure-html/unnamed-chunk-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="02_data_acquisition_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></a></p>
+<figure class="figure"><p><a href="02_Challenge2_Supervised_ML-Regression2_files/figure-html/unnamed-chunk-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="02_Challenge2_Supervised_ML-Regression2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 </div>
 <p>#Data Preparation</p>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-3_784aa0308f82e07ca8b8350f001b999b">
+<div class="cell" data-hash="02_Challenge2_Supervised_ML-Regression2_cache/html/unnamed-chunk-3_20df58d3226a036f4c1a7c4ea14366cc">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>bike_features_tbl <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/bike_features_tbl.rds"</span>)</span>
 <span id="cb20-2"><a href="#cb20-2"></a><span class="fu">glimpse</span>(bike_features_tbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -495,7 +499,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section><section id="lets-order-and-tidy-the-tibble-a-bit.-we-need-the-following-data" class="level1" data-number="2"><h1 data-number="2">
 <span class="header-section-number">2</span> Let’s order and tidy the tibble a bit. We need the following data:</h1>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-4_00ce4523c8beca2ddb82f8da1e7c489d">
+<div class="cell" data-hash="02_Challenge2_Supervised_ML-Regression2_cache/html/unnamed-chunk-4_e45e45ac9203284422d1f785f7483488">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># 2.0 TRAINING &amp; </span><span class="al">TEST</span><span class="co"> SETS ----</span></span>
 <span id="cb24-2"><a href="#cb24-2"></a></span>
 <span id="cb24-3"><a href="#cb24-3"></a>bike_features_tbl <span class="ot">&lt;-</span> bike_features_tbl <span class="sc">%&gt;%</span> </span>
@@ -515,7 +519,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section><section id="split-data-in-test-and-train-set-randomly" class="level1" data-number="3"><h1 data-number="3">
 <span class="header-section-number">3</span> split data in test and train set (randomly)</h1>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-5_125c86c989abd2ee97a2de9a2d8ec011">
+<div class="cell" data-hash="02_Challenge2_Supervised_ML-Regression2_cache/html/unnamed-chunk-5_9ddcb2ffcf38f9c8c4f0f6f423c5c5b1">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># Filter E-Road because it caused problems (just 1 element, and it could no be in training and test -&gt; error bc not known)</span></span>
 <span id="cb25-2"><a href="#cb25-2"></a>bike_features_tbl <span class="ot">&lt;-</span> bike_features_tbl <span class="sc">%&gt;%</span></span>
 <span id="cb25-3"><a href="#cb25-3"></a>  <span class="fu">filter</span>(category_2 <span class="sc">!=</span> <span class="st">"E-Road"</span>)</span>
@@ -567,7 +571,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section><section id="linear-regression-model-and-prediction-bad-result-due-to-not-well-choosen-features" class="level1" data-number="4"><h1 data-number="4">
 <span class="header-section-number">4</span> Linear Regression Model and prediction (bad result due to not well choosen features)</h1>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-6_6a001f21cee3276b1aef5d1dbfb1e229">
+<div class="cell" data-hash="02_Challenge2_Supervised_ML-Regression2_cache/html/unnamed-chunk-6_73b711731071a66a1516222c32519bbc">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>model_01_linear_lm_simple <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">mode =</span> <span class="st">"regression"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb31-2"><a href="#cb31-2"></a>    <span class="fu">set_engine</span>(<span class="st">"lm"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb31-3"><a href="#cb31-3"></a>    <span class="fu">fit</span>(price <span class="sc">~</span> category_2 <span class="sc">+</span> frame_material, <span class="at">data =</span> train_tbl)</span>
@@ -597,7 +601,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section><section id="new-bike-to-predict-price-use-simpel-model-with-bad-prediction-since-i-had-some-issues-with-the-engineered-features" class="level1" data-number="5"><h1 data-number="5">
 <span class="header-section-number">5</span> New Bike to predict price (use simpel model with bad prediction (since I had some issues with the engineered features)</h1>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-7_a3ce52393b682cb746dd8f985267f789">
+<div class="cell" data-hash="02_Challenge2_Supervised_ML-Regression2_cache/html/unnamed-chunk-7_9a2d025eb3166db7b60730d8d36c210e">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="co"># 5.1 NEW MODEL ----</span></span>
 <span id="cb33-2"><a href="#cb33-2"></a></span>
 <span id="cb33-3"><a href="#cb33-3"></a>new_cross_country <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
@@ -651,7 +655,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section><section id="engineered-feature-for-better-prediction" class="level1" data-number="6"><h1 data-number="6">
 <span class="header-section-number">6</span> engineered feature for better prediction</h1>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-8_1d32af3e2c35e3b32ef3797ade1c1f78">
+<div class="cell" data-hash="02_Challenge2_Supervised_ML-Regression2_cache/html/unnamed-chunk-8_b281e4ee8dafbf19141c67f042630a69">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="co"># 3.2.1 Model ----</span></span>
 <span id="cb35-2"><a href="#cb35-2"></a>model_02_linear_lm_complex <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="st">"regression"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb35-3"><a href="#cb35-3"></a>    <span class="fu">set_engine</span>(<span class="st">"lm"</span>) <span class="sc">%&gt;%</span></span>
@@ -662,14 +666,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb35-8"><a href="#cb35-8"></a><span class="co">#model_02_linear_lm_complex %&gt;% calc_metrics(new_data = test_tbl)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>#1 CHALLENGE WITH RECIPES PACKAGE:</p>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-9_a27cce8d3c0d7d71c2f94d4bc810e2f2">
+<div class="cell" data-hash="02_Challenge2_Supervised_ML-Regression2_cache/html/unnamed-chunk-9_b4872cf78651c36b09f521e26eb4fb8c">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="co"># define the model</span></span>
 <span id="cb36-2"><a href="#cb36-2"></a>lm_model_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb36-3"><a href="#cb36-3"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb36-4"><a href="#cb36-4"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>#2</p>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-10_c3bc1ee0f443aa9d18fcf7053d2ee244">
+<div class="cell" data-hash="02_Challenge2_Supervised_ML-Regression2_cache/html/unnamed-chunk-10_b24f11c11c78f455ca4d897670ba7b91">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>recipe_obj <span class="ot">&lt;-</span> <span class="fu">recipe</span>(price <span class="sc">~</span> ., <span class="at">data =</span> train_tbl) <span class="sc">%&gt;%</span></span>
 <span id="cb37-2"><a href="#cb37-2"></a>  <span class="fu">step_rm</span>(id, url, model) <span class="sc">%&gt;%</span></span>
 <span id="cb37-3"><a href="#cb37-3"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal</span>(), <span class="sc">-</span><span class="fu">all_outcomes</span>(), <span class="at">one_hot =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
@@ -692,7 +696,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #&gt; "response"): prediction from a rank-deficient fit may be misleading</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-11_d31d30539295258d04c2cb117a209a7d">
+<div class="cell" data-hash="02_Challenge2_Supervised_ML-Regression2_cache/html/unnamed-chunk-11_d745e67092e5bc793bcf212cfb4b2fda">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># Combine predictions with actual prices</span></span>
 <span id="cb39-2"><a href="#cb39-2"></a>predictions_with_actual <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(test_transformed_tbl <span class="sc">%&gt;%</span> <span class="fu">select</span>(price), predictions)</span>
 <span id="cb39-3"><a href="#cb39-3"></a></span>
@@ -961,7 +965,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","closeEffect":"zoom","selector":".lightbox","openEffect":"zoom","loop":true});</script>
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","descPosition":"bottom","loop":true,"selector":".lightbox"});</script>
 
 
 </body></html>

@@ -101,7 +101,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -146,20 +149,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-journal">
 <li>
-    <a class="dropdown-item" href="../../content/01_journal/01_tidyverse.html">
- <span class="dropdown-text">01 Tidyverse</span></a>
+    <a class="dropdown-item" href="../../content/01_journal/01_Challenge1_Machine_Learning_Fundamentals.html">
+ <span class="dropdown-text">01 Challenge1_Machine_Learning_Fundamentals</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../content/01_journal/02_data_acquisition.html">
- <span class="dropdown-text">02 Data Acquisition</span></a>
+    <a class="dropdown-item" href="../../content/01_journal/02_Challenge2_Supervised_ML-Regression2.html">
+ <span class="dropdown-text">02_Challenge2_Supervised_ML-Regression2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../content/01_journal/03_data_wrangling.html">
- <span class="dropdown-text">03 Data Wrangling</span></a>
+    <a class="dropdown-item" href="../../content/01_journal/03_Challenge3_automated_machine_learning_with_h20_1.html">
+ <span class="dropdown-text">03 Challenge3_automated_machine_learning_with_h20_1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../content/01_journal/04_data_visualization.html">
- <span class="dropdown-text">04 Data Visualization</span></a>
+    <a class="dropdown-item" href="../../content/01_journal/04_Challenge4_performance_measures.html">
+ <span class="dropdown-text">04 Challenge4_performance_measures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../content/01_journal/05_Challenge5_Explaining_Black-Box_Models_With_LIME.html">
+ <span class="dropdown-text">05 Challenge5_Explaining_Black-Box_Models_With_LIME</span></a>
   </li>  
     </ul>
 </li>
@@ -218,7 +225,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
-</header><div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-1_e585e3d3fb01969788ecb52bfcba61b3">
+</header><div class="cell" data-hash="03_Challenge3_automated_machine_learning_with_h20_1_cache/html/unnamed-chunk-1_ad7631ac81102292c4292d43acd9fd66">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#install.packages("h2o")</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(h2o)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -258,14 +265,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>#&gt;  Connection successful!
 #&gt; 
 #&gt; R is connected to the H2O cluster: 
-#&gt;     H2O cluster uptime:         30 minutes 21 seconds 
+#&gt;     H2O cluster uptime:         2 hours 1 minutes 
 #&gt;     H2O cluster timezone:       Europe/Berlin 
 #&gt;     H2O data parsing timezone:  UTC 
 #&gt;     H2O cluster version:        3.40.0.4 
 #&gt;     H2O cluster version age:    1 month and 17 days 
 #&gt;     H2O cluster name:           H2O_started_from_R_jorda_ktd724 
 #&gt;     H2O cluster total nodes:    1 
-#&gt;     H2O cluster total memory:   3.55 GB 
+#&gt;     H2O cluster total memory:   3.13 GB 
 #&gt;     H2O cluster total cores:    12 
 #&gt;     H2O cluster allowed cores:  12 
 #&gt;     H2O cluster healthy:        TRUE 
@@ -335,7 +342,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <section id="load-the-training-test-dataset" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="load-the-training-test-dataset">
 <span class="header-section-number">1.1</span> 1. Load the training &amp; test dataset</h2>
-<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-2_a996f0236a36d9a9f39c00ad27228404">
+<div class="cell" data-hash="03_Challenge3_automated_machine_learning_with_h20_1_cache/html/unnamed-chunk-2_8219949ce854b5118fcfa757d9c84534">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Required Libraries</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -381,14 +388,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>#&gt;  Connection successful!
 #&gt; 
 #&gt; R is connected to the H2O cluster: 
-#&gt;     H2O cluster uptime:         30 minutes 25 seconds 
+#&gt;     H2O cluster uptime:         2 hours 1 minutes 
 #&gt;     H2O cluster timezone:       Europe/Berlin 
 #&gt;     H2O data parsing timezone:  UTC 
 #&gt;     H2O cluster version:        3.40.0.4 
 #&gt;     H2O cluster version age:    1 month and 17 days 
 #&gt;     H2O cluster name:           H2O_started_from_R_jorda_ktd724 
 #&gt;     H2O cluster total nodes:    1 
-#&gt;     H2O cluster total memory:   3.55 GB 
+#&gt;     H2O cluster total memory:   3.13 GB 
 #&gt;     H2O cluster total cores:    12 
 #&gt;     H2O cluster allowed cores:  12 
 #&gt;     H2O cluster healthy:        TRUE 
@@ -429,7 +436,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section><section id="specifiy-the-response-and-predictor-variables" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="specifiy-the-response-and-predictor-variables">
 <span class="header-section-number">1.2</span> 2.Specifiy the response and predictor variables</h2>
-<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-3_dba651ad8d4bf75916554679347801ba">
+<div class="cell" data-hash="03_Challenge3_automated_machine_learning_with_h20_1_cache/html/unnamed-chunk-3_53aa413450fa1dd742e7d7faf1041bca">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># Divide the data into a training and a validation data frame</span></span>
 <span id="cb17-2"><a href="#cb17-2"></a><span class="co"># The seed is set for the sake of reproducibility</span></span>
 <span id="cb17-3"><a href="#cb17-3"></a>split_h2o <span class="ot">&lt;-</span> <span class="fu">h2o.splitFrame</span>(<span class="fu">as.h2o</span>(train_prepared_tbl), <span class="at">ratios =</span> <span class="fu">c</span>(<span class="fl">0.85</span>), <span class="at">seed =</span> <span class="dv">1234</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -458,7 +465,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section><section id="run-automl-specifying-the-stopping-criterion" class="level2" data-number="1.3"><h2 data-number="1.3" class="anchored" data-anchor-id="run-automl-specifying-the-stopping-criterion">
 <span class="header-section-number">1.3</span> 3 run AutoML specifying the stopping criterion</h2>
-<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-4_ef2ff59abbddc595d6bc9dfd01c15c86">
+<div class="cell" data-hash="03_Challenge3_automated_machine_learning_with_h20_1_cache/html/unnamed-chunk-4_f8321ccac5c39c513ebf42c2d0516dab">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># Run automated machine learning</span></span>
 <span id="cb22-2"><a href="#cb22-2"></a>automl_model_h2o <span class="ot">&lt;-</span> <span class="fu">h2o.automl</span>(</span>
 <span id="cb22-3"><a href="#cb22-3"></a>  <span class="at">x =</span> feature_variables,</span>
@@ -475,34 +482,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   |                                                                      |   0%
   |                                                                            
   |==                                                                    |   3%
-#&gt; 06:55:07.537: User specified a validation frame with cross-validation still enabled. Please note that the models will still be validated using cross-validation only, the validation frame will be used to provide purely informative validation metrics on the trained models.
-#&gt; 06:55:07.540: AutoML: XGBoost is not available; skipping it.
+#&gt; 08:26:40.306: User specified a validation frame with cross-validation still enabled. Please note that the models will still be validated using cross-validation only, the validation frame will be used to provide purely informative validation metrics on the trained models.
+#&gt; 08:26:40.308: AutoML: XGBoost is not available; skipping it.
   |                                                                            
-  |=======                                                               |  10%
+  |========                                                              |  11%
   |                                                                            
-  |============                                                          |  17%
+  |=============                                                         |  18%
   |                                                                            
-  |=================                                                     |  24%
+  |==================                                                    |  25%
   |                                                                            
-  |======================                                                |  31%
+  |=======================                                               |  32%
   |                                                                            
-  |===========================                                           |  38%
+  |===========================                                           |  39%
   |                                                                            
-  |================================                                      |  45%
+  |================================                                      |  46%
   |                                                                            
-  |====================================                                  |  52%
+  |======================================                                |  54%
   |                                                                            
-  |=========================================                             |  59%
+  |===========================================                           |  61%
   |                                                                            
-  |==============================================                        |  66%
+  |================================================                      |  69%
   |                                                                            
-  |===================================================                   |  73%
+  |=====================================================                 |  75%
   |                                                                            
-  |========================================================              |  80%
+  |==========================================================            |  82%
   |                                                                            
-  |=============================================================         |  87%
+  |===============================================================       |  89%
   |                                                                            
-  |=================================================================     |  93%
+  |====================================================================  |  97%
   |                                                                            
   |======================================================================| 100%</code></pre>
 </div>
@@ -516,7 +523,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section><section id="view-the-leaderboard-5.save-the-leader-model-6.load-the-model" class="level2" data-number="1.4"><h2 data-number="1.4" class="anchored" data-anchor-id="view-the-leaderboard-5.save-the-leader-model-6.load-the-model">
 <span class="header-section-number">1.4</span> 4. View the leaderboard 5.Save the leader model 6.Load the model</h2>
-<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-5_a0aeec019d08ddbe3dd40011eb35f43b">
+<div class="cell" data-hash="03_Challenge3_automated_machine_learning_with_h20_1_cache/html/unnamed-chunk-5_edbb14e477056a66a80e65d1e631109d">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># Get the names of slots in the automl_models_h2o object</span></span>
 <span id="cb25-2"><a href="#cb25-2"></a>slots <span class="ot">&lt;-</span> <span class="fu">slotNames</span>(automl_model_h2o)</span>
 <span id="cb25-3"><a href="#cb25-3"></a></span>
@@ -524,25 +531,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb25-5"><a href="#cb25-5"></a>leaderboard <span class="ot">&lt;-</span> automl_model_h2o<span class="sc">@</span>leaderboard</span>
 <span id="cb25-6"><a href="#cb25-6"></a>leaderboard</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>#&gt;                                                 model_id       auc   logloss
-#&gt; 1 StackedEnsemble_BestOfFamily_3_AutoML_4_20230615_65507 0.9548752 0.1624372
-#&gt; 2 StackedEnsemble_BestOfFamily_2_AutoML_4_20230615_65507 0.9543220 0.1629562
-#&gt; 3    StackedEnsemble_AllModels_2_AutoML_4_20230615_65507 0.9524745 0.1639352
-#&gt; 4    StackedEnsemble_AllModels_1_AutoML_4_20230615_65507 0.9520404 0.1643658
-#&gt; 5                          GBM_4_AutoML_4_20230615_65507 0.9506423 0.1666743
-#&gt; 6                          GBM_3_AutoML_4_20230615_65507 0.9484670 0.1698379
+<pre><code>#&gt;                                                  model_id       auc   logloss
+#&gt; 1 StackedEnsemble_BestOfFamily_3_AutoML_12_20230615_82640 0.9518686 0.1748054
+#&gt; 2    StackedEnsemble_AllModels_2_AutoML_12_20230615_82640 0.9512450 0.1751240
+#&gt; 3 StackedEnsemble_BestOfFamily_2_AutoML_12_20230615_82640 0.9508860 0.1767061
+#&gt; 4    StackedEnsemble_AllModels_1_AutoML_12_20230615_82640 0.9506600 0.1761617
+#&gt; 5                          GBM_4_AutoML_12_20230615_82640 0.9495704 0.1782795
+#&gt; 6                          GBM_3_AutoML_12_20230615_82640 0.9470881 0.1838058
 #&gt;       aucpr mean_per_class_error      rmse        mse
-#&gt; 1 0.7226072            0.1578775 0.2212378 0.04894618
-#&gt; 2 0.7211075            0.1564502 0.2213882 0.04901273
-#&gt; 3 0.7164268            0.1468513 0.2223098 0.04942165
-#&gt; 4 0.7161839            0.1392679 0.2223394 0.04943483
-#&gt; 5 0.7110763            0.1471887 0.2229243 0.04969525
-#&gt; 6 0.7093239            0.1541291 0.2249658 0.05060962
+#&gt; 1 0.7226038            0.1324578 0.2288391 0.05236731
+#&gt; 2 0.7212276            0.1187951 0.2300424 0.05291952
+#&gt; 3 0.7176618            0.1493571 0.2297406 0.05278074
+#&gt; 4 0.7188289            0.1348982 0.2306037 0.05317805
+#&gt; 5 0.7163029            0.1403840 0.2308283 0.05328171
+#&gt; 6 0.7004171            0.1203357 0.2352896 0.05536118
 #&gt; 
 #&gt; [14 rows x 7 columns]</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-6_90ce4dfc33d4ac7e3596fcd9a221563d">
+<div class="cell" data-hash="03_Challenge3_automated_machine_learning_with_h20_1_cache/html/unnamed-chunk-6_36464d2785fea88fa43883edf528ef9b">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># Extract the name of a specific model from the leaderboard</span></span>
 <span id="cb27-2"><a href="#cb27-2"></a>get_model_name <span class="ot">&lt;-</span> <span class="cf">function</span>(h2o_leaderboard, <span class="at">n =</span> <span class="dv">1</span>, <span class="at">verbose =</span> T) {</span>
 <span id="cb27-3"><a href="#cb27-3"></a>  </span>
@@ -562,7 +569,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb27-17"><a href="#cb27-17"></a>  <span class="fu">get_model_name</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb27-18"><a href="#cb27-18"></a>  <span class="fu">h2o.getModel</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>#&gt; StackedEnsemble_BestOfFamily_3_AutoML_4_20230615_65507</code></pre>
+<pre><code>#&gt; StackedEnsemble_BestOfFamily_3_AutoML_12_20230615_82640</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># Save the specified model</span></span>
 <span id="cb29-2"><a href="#cb29-2"></a><span class="co">#h2o.getModel("StackedEnsemble_BestOfFamily_3_AutoML_2_20230615_64046") %&gt;% </span></span>
@@ -574,7 +581,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section><section id="predicting-using-leader-model" class="level2" data-number="1.5"><h2 data-number="1.5" class="anchored" data-anchor-id="predicting-using-leader-model">
 <span class="header-section-number">1.5</span> 5.Predicting using Leader Model</h2>
-<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-7_bd0be9aa00cc40690531992df336ce9b">
+<div class="cell" data-hash="03_Challenge3_automated_machine_learning_with_h20_1_cache/html/unnamed-chunk-7_66cff1f7eb30680c1e04817f1dfe6bc3">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># Generate predictions using the Stacked Ensemble model</span></span>
 <span id="cb30-2"><a href="#cb30-2"></a>predictions <span class="ot">&lt;-</span> <span class="fu">h2o.predict</span>(loaded_model, <span class="at">newdata =</span> <span class="fu">as.h2o</span>(test_h2o))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -589,7 +596,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb32-3"><a href="#cb32-3"></a></span>
 <span id="cb32-4"><a href="#cb32-4"></a><span class="co"># Convert predictions to a tibble</span></span>
 <span id="cb32-5"><a href="#cb32-5"></a>predictions_tbl <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(predictions)</span>
-<span id="cb32-6"><a href="#cb32-6"></a><span class="fu">View</span>(predictions_tbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-6"><a href="#cb32-6"></a><span class="fu">saveRDS</span>(predictions_tbl, <span class="st">"/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/predictions_tbl.rds"</span>)</span>
+<span id="cb32-7"><a href="#cb32-7"></a><span class="fu">View</span>(predictions_tbl)</span>
+<span id="cb32-8"><a href="#cb32-8"></a></span>
+<span id="cb32-9"><a href="#cb32-9"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/went_back_prediction.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="../../went_back_prediction.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="../../went_back_prediction.png" class="img-fluid figure-img" width="192"></a></p>
+</figure>
+</div>
+</div>
 </div>
 
 
@@ -842,7 +858,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","openEffect":"zoom","closeEffect":"zoom","loop":true});</script>
 
 
 </body></html>

@@ -146,20 +146,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-journal">
 <li>
-    <a class="dropdown-item" href="../../content/01_journal/01_tidyverse.qmd">
- <span class="dropdown-text">01 Tidyverse</span></a>
+    <a class="dropdown-item" href="../../content/01_journal/01_Challenge1_Machine_Learning_Fundamentals.html">
+ <span class="dropdown-text">01 Challenge1_Machine_Learning_Fundamentals</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../content/01_journal/02_data_acquisition.html">
- <span class="dropdown-text">02 Data Acquisition</span></a>
+    <a class="dropdown-item" href="../../content/01_journal/02_Challenge2_Supervised_ML-Regression2.html">
+ <span class="dropdown-text">02_Challenge2_Supervised_ML-Regression2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../content/01_journal/03_data_wrangling.html">
- <span class="dropdown-text">03 Data Wrangling</span></a>
+    <a class="dropdown-item" href="../../content/01_journal/03_Challenge3_automated_machine_learning_with_h20_1.html">
+ <span class="dropdown-text">03 Challenge3_automated_machine_learning_with_h20_1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../content/01_journal/04_data_visualization.html">
- <span class="dropdown-text">04 Data Visualization</span></a>
+    <a class="dropdown-item" href="../../content/01_journal/04_Challenge4_performance_measures.html">
+ <span class="dropdown-text">04 Challenge4_performance_measures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../content/01_journal/05_Challenge5_Explaining_Black-Box_Models_With_LIME.html">
+ <span class="dropdown-text">05 Challenge5_Explaining_Black-Box_Models_With_LIME</span></a>
   </li>  
     </ul>
 </li>
@@ -231,7 +235,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></section><section id="libraries" class="level1" data-number="3"><h1 data-number="3">
 <span class="header-section-number">3</span> Libraries</h1>
 <p>Load the following libraries.</p>
-<div class="cell" data-hash="01_Machine-Learning-Fundamentals_cache/html/unnamed-chunk-1_3d670e3b8e33ebacffeaa4a8cb4e3ba9">
+<div class="cell" data-hash="01_Challenge1_Machine_Learning_Fundamentals_cache/html/unnamed-chunk-1_7bc8e5685e7c13ecb32ce5962b2007a5">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># install.packages("plotly")</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -324,7 +328,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>
 <code>adjusted</code>: The stock price, adjusted for any splits and dividends (we use this when analyzing stock data over long periods of time)</li>
 </ul>
-<div class="cell" data-hash="01_Machine-Learning-Fundamentals_cache/html/unnamed-chunk-2_53486b4fbd76f0ead7f63c6a27d983ba">
+<div class="cell" data-hash="01_Challenge1_Machine_Learning_Fundamentals_cache/html/unnamed-chunk-2_2fa17460daac8baca1f6a24969121a07">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># STOCK PRICES</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>sp_500_prices_tbl <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/sp_500_prices_tbl.rds"</span>)</span>
 <span id="cb8-3"><a href="#cb8-3"></a>sp_500_prices_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -344,7 +348,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>
 <code>sector</code>: The sector that the company belongs to</li>
 </ul>
-<div class="cell" data-hash="01_Machine-Learning-Fundamentals_cache/html/unnamed-chunk-3_f086c1eae529f362495959fc764d6d2e">
+<div class="cell" data-hash="01_Challenge1_Machine_Learning_Fundamentals_cache/html/unnamed-chunk-3_83c6060358b57133550694a641cd9bb5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># SECTOR INFORMATION</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a>sp_500_index_tbl <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/sp_500_index_tbl.rds"</span>)</span>
 <span id="cb9-3"><a href="#cb9-3"></a>sp_500_index_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
