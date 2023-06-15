@@ -1,0 +1,337 @@
+---
+title: "Supervised ML - Regression(II)"
+output: html_notebook
+---
+
+
+
+
+
+Load all neccessary libraries
+
+```{r}
+# Standard
+library(tidyverse)
+
+# Modeling
+library(parsnip)
+
+# Preprocessing & Sampling
+library(recipes)
+library(rsample)
+
+# Modeling Error Metrics
+library(yardstick)
+
+# Plotting Decision Trees
+library(rpart.plot)
+
+library(rsample)
+library(parsnip)
+library(yardstick)
+library(workflows)
+```
+
+
+
+
+
+```{r}
+# Load the 'bike_orderlines_tbl' data from the specified file
+bike_orderlines_tbl <- readRDS("bike_orderlines.rds")
+bike_orderlines_tbl
+# Display the structure of the 'bike_orderlines_tbl' data
+glimpse(bike_orderlines_tbl)
+
+#Create new table
+model_sales_tbl <- bike_orderlines_tbl %>%
+
+    #Select: total price, model, category_2 and frame material
+    select(total_price, model, category_2, frame_material) %>%
+    
+    # Group the data by 'model', 'category_2', and 'frame_material'
+    group_by(model, category_2, frame_material) %>%
+    
+    # Calculate the total sales for each combination of 'model', 'category_2', and 'frame_material'
+    summarise(total_sales = sum(total_price)) %>%
+
+    # Ungroup the data
+    ungroup() %>%
+   
+    # Arrange the data in descending order of 'total_sales'
+    arrange(desc(total_sales))
+
+# Modify the 'category_2' column in 'model_sales_tbl' to reorder the levels based on 'total_sales'
+model_sales_tbl %>%
+    mutate(category_2 = as_factor(category_2) %>% 
+               fct_reorder(total_sales, .fun = max) %>% 
+               fct_rev()) %>%
+  
+    
+    # Create a violin plot with 'frame_material' on the x-axis and 'total_sales' on the y-axis
+    ggplot(aes(frame_material, total_sales)) +
+    geom_violin() +  # Add violin plot
+    geom_jitter(width = 0.1, alpha = 0.5, color = "#2c3e50") +  # Add jittered points
+    facet_wrap(~ category_2) +  # Create separate facets for each 'category_2'
+    scale_y_continuous(labels = scales::dollar_format(scale = 1e-6, suffix = "M", accuracy = 0.1)) +  # Format y-axis labels as dollars in millions
+    tidyquant::theme_tq() +  # Apply a theme from the tidyquant package
+    labs(
+        title = "Total Sales for Each Model",  # Set the title of the plot
+        x = "Frame Material", y = "Revenue"  # Set the axis labels
+    )
+
+
+```
+
+
+Data Preparation
+
+
+```{r}
+bike_features_tbl <- readRDS("bike_features_tbl.rds")
+glimpse(bike_features_tbl)
+bike_features_tbl
+
+bike_features_tbl <- bike_features_tbl %>% 
+    select(model:url, `Rear Derailleur`, `Shift Lever`) %>% 
+    mutate(
+      `shimano dura-ace`        = `Rear Derailleur` %>% str_to_lower() %>% str_detect("shimano dura-ace ") %>% as.numeric(),
+      `shimano ultegra`         = `Rear Derailleur` %>% str_to_lower() %>% str_detect("shimano ultegra ") %>% as.numeric(),
+      `shimano 105`             = `Rear Derailleur` %>% str_to_lower() %>% str_detect("shimano 105 ") %>% as.numeric(),
+      `shimano tiagra`          = `Rear Derailleur` %>% str_to_lower() %>% str_detect("shimano tiagra ") %>% as.numeric(),
+      `Shimano sora`            = `Rear Derailleur` %>% str_to_lower() %>% str_detect("shimano sora") %>% as.numeric(),
+      `shimano deore`           = `Rear Derailleur` %>% str_to_lower() %>% str_detect("shimano deore(?! xt)") %>% as.numeric(),
+      `shimano slx`             = `Rear Derailleur` %>% str_to_lower() %>% str_detect("shimano slx") %>% as.numeric(),
+      `shimano grx`             = `Rear Derailleur` %>% str_to_lower() %>% str_detect("shimano grx") %>% as.numeric(),
+      `Shimano xt`              = `Rear Derailleur` %>% str_to_lower() %>% str_detect("shimano deore xt |shimano xt ") %>% as.numeric(),
+      `Shimano xtr`             = `Rear Derailleur` %>% str_to_lower() %>% str_detect("shimano xtr") %>% as.numeric(),
+      `Shimano saint`           = `Rear Derailleur` %>% str_to_lower() %>% str_detect("shimano saint") %>% as.numeric(),
+      `SRAM red`                = `Rear Derailleur` %>% str_to_lower() %>% str_detect("sram red") %>% as.numeric(),
+      `SRAM force`              = `Rear Derailleur` %>% str_to_lower() %>% str_detect("sram force") %>% as.numeric(),
+      `SRAM rival`              = `Rear Derailleur` %>% str_to_lower() %>% str_detect("sram rival") %>% as.numeric(),
+      `SRAM apex`               = `Rear Derailleur` %>% str_to_lower() %>% str_detect("sram apex") %>% as.numeric(),
+      `SRAM xx1`                = `Rear Derailleur` %>% str_to_lower() %>% str_detect("sram xx1") %>% as.numeric(),
+      `SRAM x01`                = `Rear Derailleur` %>% str_to_lower() %>% str_detect("sram x01|sram xo1") %>% as.numeric(),
+      `SRAM gx`                 = `Rear Derailleur` %>% str_to_lower() %>% str_detect("sram gx") %>% as.numeric(),
+      `SRAM nx`                 = `Rear Derailleur` %>% str_to_lower() %>% str_detect("sram nx") %>% as.numeric(),
+      `SRAM sx`                 = `Rear Derailleur` %>% str_to_lower() %>% str_detect("sram sx") %>% as.numeric(),
+      `SRAM sx`                 = `Rear Derailleur` %>% str_to_lower() %>% str_detect("sram sx") %>% as.numeric(),
+      `Campagnolo potenza`      = `Rear Derailleur` %>% str_to_lower() %>% str_detect("campagnolo potenza") %>% as.numeric(),
+      `Campagnolo super record` = `Rear Derailleur` %>% str_to_lower() %>% str_detect("campagnolo super record") %>% as.numeric(),
+      `shimano nexus`           = `Shift Lever`     %>% str_to_lower() %>% str_detect("shimano nexus") %>% as.numeric(),
+      `shimano alfine`          = `Shift Lever`     %>% str_to_lower() %>% str_detect("shimano alfine") %>% as.numeric()
+    ) %>% 
+  # Remove original columns  
+  select(-c(`Rear Derailleur`, `Shift Lever`)) %>% 
+  # Set all NAs to 0
+  mutate_if(is.numeric, ~replace(., is.na(.), 0))
+
+#bike_features_tbl
+```
+
+Let’s order and tidy the tibble a bit. We need the following data:
+
+
+```{r}
+# 2.0 TRAINING & TEST SETS ----
+
+bike_features_tbl <- bike_features_tbl %>% 
+  
+  mutate(id = row_number()) %>% 
+  
+  select(id, everything())
+bike_features_tbl
+```
+
+
+
+
+
+
+
+
+
+split data in test and train set (randomly)
+```{r}
+# Filter E-Road because it caused problems (just 1 element, and it could no be in training and test -> error bc not known)
+bike_features_tbl <- bike_features_tbl %>%
+  filter(category_2 != "E-Road")
+
+bike_features_tbl %>% distinct(category_2)
+
+sum(bike_features_tbl$category_2 == "E-Road")
+
+# run both following commands at the same time
+set.seed(seed = 1113)
+
+split_obj <- initial_split(bike_features_tbl, prop = 0.80, strata = "category_2")
+
+# Check if testing contains all category_2 values
+split_obj %>% training() %>% distinct(category_2)
+split_obj %>% testing() %>% distinct(category_2)
+
+# Assign training and test data
+train_tbl <- training(split_obj)
+test_tbl  <- testing(split_obj)
+
+# We have to remove spaces and dashes from the column names
+train_tbl <- train_tbl %>% set_names(str_replace_all(names(train_tbl), " |-", "_"))
+test_tbl  <- test_tbl  %>% set_names(str_replace_all(names(test_tbl),  " |-", "_"))
+```
+
+
+
+Linear Regression Model and prediction (bad result due to not well choosen features)
+
+```{r}
+
+
+model_01_linear_lm_simple <- linear_reg(mode = "regression") %>%
+    set_engine("lm") %>%
+    fit(price ~ category_2 + frame_material, data = train_tbl)
+test_tbl
+
+model_01_linear_lm_simple %>%
+    predict(new_data = test_tbl)%>%
+
+    bind_cols(test_tbl %>% select(price)) %>%
+  
+    yardstick::metrics(truth = price, estimate = .pred)
+
+```
+
+
+New Bike to predict price (use simpel model with bad prediction (since I had some issues with the engineered features)
+
+```{r}
+
+# 5.1 NEW MODEL ----
+
+new_cross_country <- tibble(
+        model = "Exceed AL SL new",
+        category_2 = "Cross-Country",
+        frame_material = "aluminium",
+        shimano_dura_ace = 0,
+        shimano_ultegra = 0,
+        shimano_105 = 0,
+        shimano_tiagra = 0,
+        Shimano_sora = 0,
+        shimano_deore = 0,
+        shimano_slx = 0,
+        shimano_grx = 0,
+        Shimano_xt = 1,
+        Shimano_xtr = 0,
+        Shimano_saint = 0,
+        SRAM_red = 0,
+        SRAM_force = 0,
+        SRAM_rival = 0,
+        SRAM_apex = 0,
+        SRAM_xx1 = 0,
+        SRAM_x01 = 0,
+        SRAM_gx = 0,
+        SRAM_nx = 0,
+        SRAM_sx = 0,
+        Campagnolo_potenza = 0,
+        Campagnolo_super_record = 0,
+        shimano_nexus = 0,
+        shimano_alfine = 0
+) 
+
+new_cross_country
+predict(model_01_linear_lm_simple,, new_data = new_cross_country)
+```
+
+
+engineered feature for better prediction
+
+```{r}
+
+# 3.2.1 Model ----
+model_02_linear_lm_complex <- linear_reg("regression") %>%
+    set_engine("lm") %>%
+    
+    # This is going to be different. Remove unnecessary columns.
+    fit(price ~ ., data = train_tbl %>% select(-c(id:weight), -category_1, -c(category_3:gender)))
+
+model_02_linear_lm_complex %>% calc_metrics(new_data = test_tbl)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+CHALLENGE WITH RECIPES PACKAGE:
+#1
+```{r}
+
+# define the model
+lm_model_spec <- linear_reg() %>%
+  set_engine("lm") %>%
+  set_mode("regression")
+
+```
+#2
+
+```{r}
+recipe_obj <- recipe(price ~ ., data = train_tbl) %>%
+  step_rm(id, url, model) %>%
+  step_dummy(all_nominal(), -all_outcomes(), one_hot = TRUE) %>%
+  prep()
+
+# Apply preprocessing features to train and test data
+train_transformed_tbl <- bake(recipe_obj, new_data = train_tbl)
+test_transformed_tbl  <- bake(recipe_obj, new_data = test_tbl)
+
+# Combine in workflow
+workflow_obj <- workflow() %>%
+  add_recipe(recipe_obj) %>%
+  add_model(lm_model_spec) %>%
+  fit(data = train_tbl)
+
+# make predictions
+predictions <- predict(workflow_obj, new_data = test_tbl)
+```
+
+```{r}
+
+# Combine predictions with actual prices
+predictions_with_actual <- bind_cols(test_transformed_tbl %>% select(price), predictions)
+
+# Calculate evaluation metrics
+evaluation_metrics <- yardstick::metrics(predictions_with_actual, truth = price, estimate = .pred)
+
+# Print evaluation metrics
+print(evaluation_metrics)
+
+```
+
+
+
+# Testing for myself
+
+```{r}
+test_tbl
+recipe_obj
+train_transformed_tbl
+```
+
+
+
+
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.

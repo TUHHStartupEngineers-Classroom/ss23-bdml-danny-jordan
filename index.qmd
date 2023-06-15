@@ -1,21 +1,19 @@
 ---
 title: "My Lab Journal"
-subtitle: "Business Data Science Basics"
-author: "Joschka Schwarz"
+subtitle: "Business Decisions with Machine Learning"
+author: "Danny Jordan"
 ---
 
 ![](assets/logo/TIE_logo.svg){width=80% fig-align="center"}
 
-This is a template example for lab journaling. Students in the data science courses at the Institute of Entrepreneurship will use this template to learn R for business analytics. Students can replace this text as they wish.
 
-## How to use
 
-1. Accept the assignment and get your own github repo.
+I don't know why, but the my chapters are hidden. To acess them you have to
+go on the top right corner "search" and search for one of my chapters e.g 
+"performance...". They you will see the chapter. Click on it.
+After clicking everything is okay. Now the menu show the correct chapter names
+instead of tidyverse etc.
+I changed the .yml file and the .qmd file, but still have this issue nobody 
+could resolve
+  
 
-2. Blog/journal what you are doing in R, by editing the `.qmd` files. 
-
-3. See the links page for lots of helpful links on learning R.
-
-4. Change everything to make it your own.
-
-5. Make sure to render you website everytime before you want to upload changes

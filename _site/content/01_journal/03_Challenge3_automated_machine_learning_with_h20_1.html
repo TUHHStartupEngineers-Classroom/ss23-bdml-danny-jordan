@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Danny Jordan">
+<title>MyLabJournal - Automated Machine Learning with H20 (I) &amp; (II)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../assets/icons/favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+</head>
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">MyLabJournal</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../../index.html">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-journal" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Journal</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-journal">
+<li>
+    <a class="dropdown-item" href="../../content/01_journal/01_Challenge1_Machine_Learning_Fundamentals.html">
+ <span class="dropdown-text">01 Challenge1_Machine_Learning_Fundamentals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../content/01_journal/02_Challenge2_Supervised_ML-Regression2.html">
+ <span class="dropdown-text">02_Challenge2_Supervised_ML-Regression2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../content/01_journal/03_Challenge3_automated_machine_learning_with_h20_1.html">
+ <span class="dropdown-text">03 Challenge3_automated_machine_learning_with_h20_1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../content/01_journal/04_Challenge4_performance_measures.html">
+ <span class="dropdown-text">04 Challenge4_performance_measures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../content/01_journal/05_Challenge5_Explaining_Black-Box_Models_With_LIME.html">
+ <span class="dropdown-text">05 Challenge5_Explaining_Black-Box_Models_With_LIME</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../content/02_notes/05_class_notes.html">
+ <span class="menu-text">Class notes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../content/03_other/06_links.html">
+ <span class="menu-text">Links</span></a>
+  </li>  
+</ul>
+<div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Contents</h2>
+   
+  <ul class="collapse">
+<li>
+<a href="#challenge-3-automated-machine-learning-with-h2o-i" id="toc-challenge-3-automated-machine-learning-with-h2o-i" class="nav-link active" data-scroll-target="#challenge-3-automated-machine-learning-with-h2o-i"><span class="toc-section-number">1</span>  Challenge 3 Automated Machine Learning with H2O (I)</a>
+  <ul class="collapse">
+<li><a href="#load-the-training-test-dataset" id="toc-load-the-training-test-dataset" class="nav-link" data-scroll-target="#load-the-training-test-dataset"><span class="toc-section-number">1.1</span>  1. Load the training &amp; test dataset</a></li>
+  <li><a href="#specifiy-the-response-and-predictor-variables" id="toc-specifiy-the-response-and-predictor-variables" class="nav-link" data-scroll-target="#specifiy-the-response-and-predictor-variables"><span class="toc-section-number">1.2</span>  2.Specifiy the response and predictor variables</a></li>
+  <li><a href="#run-automl-specifying-the-stopping-criterion" id="toc-run-automl-specifying-the-stopping-criterion" class="nav-link" data-scroll-target="#run-automl-specifying-the-stopping-criterion"><span class="toc-section-number">1.3</span>  3 run AutoML specifying the stopping criterion</a></li>
+  <li><a href="#view-the-leaderboard-5.save-the-leader-model-6.load-the-model" id="toc-view-the-leaderboard-5.save-the-leader-model-6.load-the-model" class="nav-link" data-scroll-target="#view-the-leaderboard-5.save-the-leader-model-6.load-the-model"><span class="toc-section-number">1.4</span>  4. View the leaderboard 5.Save the leader model 6.Load the model</a></li>
+  <li><a href="#predicting-using-leader-model" id="toc-predicting-using-leader-model" class="nav-link" data-scroll-target="#predicting-using-leader-model"><span class="toc-section-number">1.5</span>  5.Predicting using Leader Model</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Automated Machine Learning with H20 (I) &amp; (II)</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Danny Jordan </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header><div class="cell" data-hash="03_Challenge3_automated_machine_learning_with_h20_1_cache/html/unnamed-chunk-1_ad7631ac81102292c4292d43acd9fd66">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#install.packages("h2o")</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(h2o)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>#&gt; 
+#&gt; ----------------------------------------------------------------------
+#&gt; 
+#&gt; Your next step is to start H2O:
+#&gt;     &gt; h2o.init()
+#&gt; 
+#&gt; For H2O package documentation, ask for help:
+#&gt;     &gt; ??h2o
+#&gt; 
+#&gt; After starting H2O, you can use the Web UI at http://localhost:54321
+#&gt; For more information visit https://docs.h2o.ai
+#&gt; 
+#&gt; ----------------------------------------------------------------------</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>#&gt; 
+#&gt; Attaching package: 'h2o'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>#&gt; The following objects are masked from 'package:stats':
+#&gt; 
+#&gt;     cor, sd, var</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>#&gt; The following objects are masked from 'package:base':
+#&gt; 
+#&gt;     %*%, %in%, &amp;&amp;, ||, apply, as.factor, as.numeric, colnames,
+#&gt;     colnames&lt;-, ifelse, is.character, is.factor, is.numeric, log,
+#&gt;     log10, log1p, log2, round, signif, trunc</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># To launch H2O locally with default initialization arguments, use the following: </span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">h2o.init</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;  Connection successful!
+#&gt; 
+#&gt; R is connected to the H2O cluster: 
+#&gt;     H2O cluster uptime:         2 hours 1 minutes 
+#&gt;     H2O cluster timezone:       Europe/Berlin 
+#&gt;     H2O data parsing timezone:  UTC 
+#&gt;     H2O cluster version:        3.40.0.4 
+#&gt;     H2O cluster version age:    1 month and 17 days 
+#&gt;     H2O cluster name:           H2O_started_from_R_jorda_ktd724 
+#&gt;     H2O cluster total nodes:    1 
+#&gt;     H2O cluster total memory:   3.13 GB 
+#&gt;     H2O cluster total cores:    12 
+#&gt;     H2O cluster allowed cores:  12 
+#&gt;     H2O cluster healthy:        TRUE 
+#&gt;     H2O Connection ip:          localhost 
+#&gt;     H2O Connection port:        54321 
+#&gt;     H2O Connection proxy:       NA 
+#&gt;     H2O Internal Security:      FALSE 
+#&gt;     R Version:                  R version 4.2.3 (2023-03-15 ucrt)</code></pre>
+</div>
+</div>
+<section id="challenge-3-automated-machine-learning-with-h2o-i" class="level1" data-number="1"><h1 data-number="1">
+<span class="header-section-number">1</span> Challenge 3 Automated Machine Learning with H2O (I)</h1>
+<ol type="1">
+<li>Compensation Features- What can you deduce about the interaction between Monthly Income and Attrition?</li>
+</ol>
+<ol start="3" type="a">
+<li>Those that are leaving have a lower Monthly Income</li>
+</ol>
+<ol start="2" type="1">
+<li>Compensation Features- What can you deduce about the interaction between Percent Salary Hike and Attrition?</li>
+</ol>
+<ol start="3" type="a">
+<li>Those that are leaving have lower Percent Salary Hike</li>
+</ol>
+<ol start="3" type="1">
+<li>Compensation Features- What can you deduce about the interaction between Stock Option Level and Attrition?</li>
+</ol>
+<ol start="2" type="a">
+<li>Those that are staying have a higher stock option level</li>
+</ol>
+<ol start="4" type="1">
+<li><p>Survey Results- What can you deduce about the interaction between Environment Satisfaction and Attrition? A higher proportion of those leaving have a low environment satisfaction level</p></li>
+<li><p>Survey Results What can you deduce about the interaction between Work Life Balance and Attrition</p></li>
+</ol>
+<ol start="2" type="a">
+<li>Those that are staying have a higher density of 2’s and 3’s</li>
+</ol>
+<ol start="6" type="1">
+<li>Performance Data- What Can you deduce about the interaction between Job Involvement and Attrition?</li>
+</ol>
+<ol type="a">
+<li>Those that are leaving have a lower density of 3’s and 4’s</li>
+</ol>
+<ol start="7" type="1">
+<li>Work-Life Features- What can you deduce about the interaction between Over Time and Attrition?</li>
+</ol>
+<ol start="2" type="a">
+<li>The proportion of those staying that are working Over Time are high compared to those that are not staying</li>
+</ol>
+<ol start="8" type="1">
+<li>Training and Education- What can you deduce about the interaction between Training Times Last Year and Attrition</li>
+</ol>
+<ol start="2" type="a">
+<li>People that leave tend to have less annual trainings</li>
+</ol>
+<ol start="9" type="1">
+<li>Time-Based Features- What can you deduce about the interaction between Years At Company and Attrition</li>
+</ol>
+<ol start="2" type="a">
+<li>People that leave tend to have less working years at the company</li>
+</ol>
+<ol start="10" type="1">
+<li>Time-Based Features- What can you deduce about the interaction between Years Since Last Promotion and Attrition?</li>
+</ol>
+<ol type="a">
+<li>Those that are leaving have more years since last promotion than those that are staying</li>
+</ol>
+<section id="load-the-training-test-dataset" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="load-the-training-test-dataset">
+<span class="header-section-number">1.1</span> 1. Load the training &amp; test dataset</h2>
+<div class="cell" data-hash="03_Challenge3_automated_machine_learning_with_h20_1_cache/html/unnamed-chunk-2_8219949ce854b5118fcfa757d9c84534">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Required Libraries</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>#&gt; ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+#&gt; ✔ dplyr     1.1.2     ✔ readr     2.1.4
+#&gt; ✔ forcats   1.0.0     ✔ stringr   1.5.0
+#&gt; ✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+#&gt; ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+#&gt; ✔ purrr     1.0.1     
+#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+#&gt; ✖ lubridate::day()   masks h2o::day()
+#&gt; ✖ dplyr::filter()    masks stats::filter()
+#&gt; ✖ lubridate::hour()  masks h2o::hour()
+#&gt; ✖ dplyr::lag()       masks stats::lag()
+#&gt; ✖ lubridate::month() masks h2o::month()
+#&gt; ✖ lubridate::week()  masks h2o::week()
+#&gt; ✖ lubridate::year()  masks h2o::year()
+#&gt; ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="fu">library</span>(recipes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>#&gt; 
+#&gt; Attaching package: 'recipes'
+#&gt; 
+#&gt; The following object is masked from 'package:stringr':
+#&gt; 
+#&gt;     fixed
+#&gt; 
+#&gt; The following object is masked from 'package:stats':
+#&gt; 
+#&gt;     step</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">library</span>(rsample)</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="fu">library</span>(h2o)</span>
+<span id="cb12-3"><a href="#cb12-3"></a></span>
+<span id="cb12-4"><a href="#cb12-4"></a></span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="co"># Initialize H2O</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a>h2o_connection <span class="ot">&lt;-</span> <span class="fu">h2o.init</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;  Connection successful!
+#&gt; 
+#&gt; R is connected to the H2O cluster: 
+#&gt;     H2O cluster uptime:         2 hours 1 minutes 
+#&gt;     H2O cluster timezone:       Europe/Berlin 
+#&gt;     H2O data parsing timezone:  UTC 
+#&gt;     H2O cluster version:        3.40.0.4 
+#&gt;     H2O cluster version age:    1 month and 17 days 
+#&gt;     H2O cluster name:           H2O_started_from_R_jorda_ktd724 
+#&gt;     H2O cluster total nodes:    1 
+#&gt;     H2O cluster total memory:   3.13 GB 
+#&gt;     H2O cluster total cores:    12 
+#&gt;     H2O cluster allowed cores:  12 
+#&gt;     H2O cluster healthy:        TRUE 
+#&gt;     H2O Connection ip:          localhost 
+#&gt;     H2O Connection port:        54321 
+#&gt;     H2O Connection proxy:       NA 
+#&gt;     H2O Internal Security:      FALSE 
+#&gt;     R Version:                  R version 4.2.3 (2023-03-15 ucrt)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># Read and Split Data</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a>product_backorders_tbl <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/product_backorders.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>#&gt; Rows: 19053 Columns: 23
+#&gt; ── Column specification ────────────────────────────────────────────────────────
+#&gt; Delimiter: ","
+#&gt; chr  (7): potential_issue, deck_risk, oe_constraint, ppap_risk, stop_auto_bu...
+#&gt; dbl (16): sku, national_inv, lead_time, in_transit_qty, forecast_3_month, fo...
+#&gt; 
+#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.
+#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co">#test print</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="co">#product_backorders_tbl</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a>set_seed <span class="ot">&lt;-</span> <span class="dv">1113</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a>split_obj <span class="ot">&lt;-</span> rsample<span class="sc">::</span><span class="fu">initial_split</span>(product_backorders_tbl, <span class="at">prop =</span> <span class="fl">0.85</span>)</span>
+<span id="cb16-5"><a href="#cb16-5"></a>train_data_tbl <span class="ot">&lt;-</span> <span class="fu">training</span>(split_obj)</span>
+<span id="cb16-6"><a href="#cb16-6"></a>test_data_tbl <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_obj)</span>
+<span id="cb16-7"><a href="#cb16-7"></a></span>
+<span id="cb16-8"><a href="#cb16-8"></a><span class="co"># Data Preparation</span></span>
+<span id="cb16-9"><a href="#cb16-9"></a>recipe_obj <span class="ot">&lt;-</span> <span class="fu">recipe</span>(went_on_backorder <span class="sc">~</span> ., <span class="at">data =</span> train_data_tbl) <span class="sc">%&gt;%</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb16-11"><a href="#cb16-11"></a>  <span class="fu">prep</span>()</span>
+<span id="cb16-12"><a href="#cb16-12"></a></span>
+<span id="cb16-13"><a href="#cb16-13"></a>train_prepared_tbl <span class="ot">&lt;-</span> <span class="fu">bake</span>(recipe_obj, <span class="at">new_data =</span> train_data_tbl)</span>
+<span id="cb16-14"><a href="#cb16-14"></a>test_prepared_tbl <span class="ot">&lt;-</span> <span class="fu">bake</span>(recipe_obj, <span class="at">new_data =</span> test_data_tbl)</span>
+<span id="cb16-15"><a href="#cb16-15"></a><span class="co">#train_prepared_tbl</span></span>
+<span id="cb16-16"><a href="#cb16-16"></a><span class="co">#test_prepared_tbl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="specifiy-the-response-and-predictor-variables" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="specifiy-the-response-and-predictor-variables">
+<span class="header-section-number">1.2</span> 2.Specifiy the response and predictor variables</h2>
+<div class="cell" data-hash="03_Challenge3_automated_machine_learning_with_h20_1_cache/html/unnamed-chunk-3_53aa413450fa1dd742e7d7faf1041bca">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># Divide the data into a training and a validation data frame</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="co"># The seed is set for the sake of reproducibility</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a>split_h2o <span class="ot">&lt;-</span> <span class="fu">h2o.splitFrame</span>(<span class="fu">as.h2o</span>(train_prepared_tbl), <span class="at">ratios =</span> <span class="fu">c</span>(<span class="fl">0.85</span>), <span class="at">seed =</span> <span class="dv">1234</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>train_h2o <span class="ot">&lt;-</span> split_h2o[[<span class="dv">1</span>]]</span>
+<span id="cb19-2"><a href="#cb19-2"></a>valid_h2o <span class="ot">&lt;-</span> split_h2o[[<span class="dv">2</span>]]</span>
+<span id="cb19-3"><a href="#cb19-3"></a>test_h2o  <span class="ot">&lt;-</span> <span class="fu">as.h2o</span>(test_prepared_tbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># Define the response variable</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a>target_variable <span class="ot">&lt;-</span> <span class="st">"went_on_backorder"</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a></span>
+<span id="cb21-4"><a href="#cb21-4"></a><span class="co"># Define the predictor variables</span></span>
+<span id="cb21-5"><a href="#cb21-5"></a>feature_variables <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(train_h2o), target_variable)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="run-automl-specifying-the-stopping-criterion" class="level2" data-number="1.3"><h2 data-number="1.3" class="anchored" data-anchor-id="run-automl-specifying-the-stopping-criterion">
+<span class="header-section-number">1.3</span> 3 run AutoML specifying the stopping criterion</h2>
+<div class="cell" data-hash="03_Challenge3_automated_machine_learning_with_h20_1_cache/html/unnamed-chunk-4_f8321ccac5c39c513ebf42c2d0516dab">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># Run automated machine learning</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a>automl_model_h2o <span class="ot">&lt;-</span> <span class="fu">h2o.automl</span>(</span>
+<span id="cb22-3"><a href="#cb22-3"></a>  <span class="at">x =</span> feature_variables,</span>
+<span id="cb22-4"><a href="#cb22-4"></a>  <span class="at">y =</span> target_variable,</span>
+<span id="cb22-5"><a href="#cb22-5"></a>  <span class="at">training_frame =</span> train_h2o,</span>
+<span id="cb22-6"><a href="#cb22-6"></a>  <span class="at">validation_frame =</span> valid_h2o,</span>
+<span id="cb22-7"><a href="#cb22-7"></a>  <span class="at">leaderboard_frame =</span> test_h2o,</span>
+<span id="cb22-8"><a href="#cb22-8"></a>  <span class="at">max_runtime_secs =</span> <span class="dv">30</span>,</span>
+<span id="cb22-9"><a href="#cb22-9"></a>  <span class="at">nfolds =</span> <span class="dv">5</span></span>
+<span id="cb22-10"><a href="#cb22-10"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |==                                                                    |   3%
+#&gt; 08:26:40.306: User specified a validation frame with cross-validation still enabled. Please note that the models will still be validated using cross-validation only, the validation frame will be used to provide purely informative validation metrics on the trained models.
+#&gt; 08:26:40.308: AutoML: XGBoost is not available; skipping it.
+  |                                                                            
+  |========                                                              |  11%
+  |                                                                            
+  |=============                                                         |  18%
+  |                                                                            
+  |==================                                                    |  25%
+  |                                                                            
+  |=======================                                               |  32%
+  |                                                                            
+  |===========================                                           |  39%
+  |                                                                            
+  |================================                                      |  46%
+  |                                                                            
+  |======================================                                |  54%
+  |                                                                            
+  |===========================================                           |  61%
+  |                                                                            
+  |================================================                      |  69%
+  |                                                                            
+  |=====================================================                 |  75%
+  |                                                                            
+  |==========================================================            |  82%
+  |                                                                            
+  |===============================================================       |  89%
+  |                                                                            
+  |====================================================================  |  97%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="co">#train_h2o</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="co">#valid_h2o</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a><span class="co">#test_h2o</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a><span class="co"># Check the type of the automl_model_h2o object</span></span>
+<span id="cb24-5"><a href="#cb24-5"></a>model_type <span class="ot">&lt;-</span> <span class="fu">typeof</span>(automl_model_h2o)</span>
+<span id="cb24-6"><a href="#cb24-6"></a></span>
+<span id="cb24-7"><a href="#cb24-7"></a><span class="co">#model_type</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="view-the-leaderboard-5.save-the-leader-model-6.load-the-model" class="level2" data-number="1.4"><h2 data-number="1.4" class="anchored" data-anchor-id="view-the-leaderboard-5.save-the-leader-model-6.load-the-model">
+<span class="header-section-number">1.4</span> 4. View the leaderboard 5.Save the leader model 6.Load the model</h2>
+<div class="cell" data-hash="03_Challenge3_automated_machine_learning_with_h20_1_cache/html/unnamed-chunk-5_edbb14e477056a66a80e65d1e631109d">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># Get the names of slots in the automl_models_h2o object</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a>slots <span class="ot">&lt;-</span> <span class="fu">slotNames</span>(automl_model_h2o)</span>
+<span id="cb25-3"><a href="#cb25-3"></a></span>
+<span id="cb25-4"><a href="#cb25-4"></a><span class="co"># Access the leaderboard from the automl_models_h2o object</span></span>
+<span id="cb25-5"><a href="#cb25-5"></a>leaderboard <span class="ot">&lt;-</span> automl_model_h2o<span class="sc">@</span>leaderboard</span>
+<span id="cb25-6"><a href="#cb25-6"></a>leaderboard</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;                                                  model_id       auc   logloss
+#&gt; 1 StackedEnsemble_BestOfFamily_3_AutoML_12_20230615_82640 0.9518686 0.1748054
+#&gt; 2    StackedEnsemble_AllModels_2_AutoML_12_20230615_82640 0.9512450 0.1751240
+#&gt; 3 StackedEnsemble_BestOfFamily_2_AutoML_12_20230615_82640 0.9508860 0.1767061
+#&gt; 4    StackedEnsemble_AllModels_1_AutoML_12_20230615_82640 0.9506600 0.1761617
+#&gt; 5                          GBM_4_AutoML_12_20230615_82640 0.9495704 0.1782795
+#&gt; 6                          GBM_3_AutoML_12_20230615_82640 0.9470881 0.1838058
+#&gt;       aucpr mean_per_class_error      rmse        mse
+#&gt; 1 0.7226038            0.1324578 0.2288391 0.05236731
+#&gt; 2 0.7212276            0.1187951 0.2300424 0.05291952
+#&gt; 3 0.7176618            0.1493571 0.2297406 0.05278074
+#&gt; 4 0.7188289            0.1348982 0.2306037 0.05317805
+#&gt; 5 0.7163029            0.1403840 0.2308283 0.05328171
+#&gt; 6 0.7004171            0.1203357 0.2352896 0.05536118
+#&gt; 
+#&gt; [14 rows x 7 columns]</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="03_Challenge3_automated_machine_learning_with_h20_1_cache/html/unnamed-chunk-6_36464d2785fea88fa43883edf528ef9b">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># Extract the name of a specific model from the leaderboard</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>get_model_name <span class="ot">&lt;-</span> <span class="cf">function</span>(h2o_leaderboard, <span class="at">n =</span> <span class="dv">1</span>, <span class="at">verbose =</span> T) {</span>
+<span id="cb27-3"><a href="#cb27-3"></a>  </span>
+<span id="cb27-4"><a href="#cb27-4"></a>  model_name <span class="ot">&lt;-</span> h2o_leaderboard <span class="sc">%&gt;%</span></span>
+<span id="cb27-5"><a href="#cb27-5"></a>    <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb27-6"><a href="#cb27-6"></a>    <span class="fu">slice</span>(n) <span class="sc">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7"></a>    <span class="fu">pull</span>(model_id)</span>
+<span id="cb27-8"><a href="#cb27-8"></a>  </span>
+<span id="cb27-9"><a href="#cb27-9"></a>  <span class="cf">if</span> (verbose) <span class="fu">message</span>(model_name)</span>
+<span id="cb27-10"><a href="#cb27-10"></a>  </span>
+<span id="cb27-11"><a href="#cb27-11"></a>  <span class="fu">return</span>(model_name)</span>
+<span id="cb27-12"><a href="#cb27-12"></a>  </span>
+<span id="cb27-13"><a href="#cb27-13"></a>}</span>
+<span id="cb27-14"><a href="#cb27-14"></a></span>
+<span id="cb27-15"><a href="#cb27-15"></a><span class="co"># Get the name of the 6th model in the leaderboard</span></span>
+<span id="cb27-16"><a href="#cb27-16"></a>model_name <span class="ot">&lt;-</span> automl_model_h2o<span class="sc">@</span>leaderboard <span class="sc">%&gt;%</span> </span>
+<span id="cb27-17"><a href="#cb27-17"></a>  <span class="fu">get_model_name</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-18"><a href="#cb27-18"></a>  <span class="fu">h2o.getModel</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>#&gt; StackedEnsemble_BestOfFamily_3_AutoML_12_20230615_82640</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># Save the specified model</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a><span class="co">#h2o.getModel("StackedEnsemble_BestOfFamily_3_AutoML_2_20230615_64046") %&gt;% </span></span>
+<span id="cb29-3"><a href="#cb29-3"></a><span class="co">#h2o.saveModel(path = "C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/Challeng3_automated_machine_learning_h2O/")</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a></span>
+<span id="cb29-5"><a href="#cb29-5"></a></span>
+<span id="cb29-6"><a href="#cb29-6"></a><span class="co"># Load a specific model</span></span>
+<span id="cb29-7"><a href="#cb29-7"></a>loaded_model <span class="ot">&lt;-</span> <span class="fu">h2o.loadModel</span>(<span class="st">"C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/Challeng3_automated_machine_learning_h2O/StackedEnsemble_BestOfFamily_3_AutoML_2_20230615_64046"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="predicting-using-leader-model" class="level2" data-number="1.5"><h2 data-number="1.5" class="anchored" data-anchor-id="predicting-using-leader-model">
+<span class="header-section-number">1.5</span> 5.Predicting using Leader Model</h2>
+<div class="cell" data-hash="03_Challenge3_automated_machine_learning_with_h20_1_cache/html/unnamed-chunk-7_66cff1f7eb30680c1e04817f1dfe6bc3">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># Generate predictions using the Stacked Ensemble model</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a>predictions <span class="ot">&lt;-</span> <span class="fu">h2o.predict</span>(loaded_model, <span class="at">newdata =</span> <span class="fu">as.h2o</span>(test_h2o))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="co"># Check the type of the predictions object</span></span>
+<span id="cb32-2"><a href="#cb32-2"></a>pred_type <span class="ot">&lt;-</span> <span class="fu">typeof</span>(predictions)</span>
+<span id="cb32-3"><a href="#cb32-3"></a></span>
+<span id="cb32-4"><a href="#cb32-4"></a><span class="co"># Convert predictions to a tibble</span></span>
+<span id="cb32-5"><a href="#cb32-5"></a>predictions_tbl <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(predictions)</span>
+<span id="cb32-6"><a href="#cb32-6"></a><span class="fu">saveRDS</span>(predictions_tbl, <span class="st">"/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/predictions_tbl.rds"</span>)</span>
+<span id="cb32-7"><a href="#cb32-7"></a><span class="fu">View</span>(predictions_tbl)</span>
+<span id="cb32-8"><a href="#cb32-8"></a></span>
+<span id="cb32-9"><a href="#cb32-9"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/went_back_prediction.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="../../went_back_prediction.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="../../went_back_prediction.png" class="img-fluid figure-img" width="192"></a></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'alternate';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","openEffect":"zoom","closeEffect":"zoom","loop":true});</script>
+
+
+</body></html>
