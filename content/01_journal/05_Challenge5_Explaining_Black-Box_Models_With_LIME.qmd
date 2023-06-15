@@ -45,17 +45,14 @@ recipe_obj
 train_tbl <- bake(recipe_obj, new_data = train_readable_tbl)
 test_tbl  <- bake(recipe_obj, new_data = test_readable_tbl)
 
-train_tbl
-test_tbl
 
-
-```
 # 2. Models ----
 
 h2o.init()
 
 automl_leader <- h2o.loadModel("C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/Challeng3_automated_machine_learning_h2O/StackedEnsemble_BestOfFamily_3_AutoML_2_20230615_64046")
 automl_leader
+
 
 # 3. LIME ----
 
