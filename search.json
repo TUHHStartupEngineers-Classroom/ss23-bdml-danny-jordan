@@ -2,16 +2,16 @@
   {
     "objectID": "content/01_journal/01_tidyverse.html",
     "href": "content/01_journal/01_tidyverse.html",
-    "title": "Tidyverse",
+    "title": "Machine Learning Fundamentals",
     "section": "",
-    "text": "Note\n\n\n\nYou can delete everything in here and start fresh.\nThis is a .qmd file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a # in front of your text, it will create a top level-header.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "Your organization wants to know which companies are similar to each other to help in identifying potential customers of a SAAS software solution (e.g. Salesforce CRM or equivalent) in various segments of the market. The Sales Department is very interested in this analysis, which will help them more easily penetrate various market segments.\nYou will be using stock prices in this analysis. You come up with a method to classify companies based on how their stocks trade using their daily stock returns (percentage movement from one day to the next). This analysis will help your organization determine which companies are related to each other (competitors and have similar attributes).\nYou can analyze the stock prices using what you’ve learned in the unsupervised learning tools including K-Means and UMAP. You will use a combination of kmeans() to find groups and umap() to visualize similarity of daily stock returns."
   },
   {
     "objectID": "content/01_journal/01_tidyverse.html#header-2",
     "href": "content/01_journal/01_tidyverse.html#header-2",
-    "title": "Tidyverse",
-    "section": "\n2.1 Header 2",
-    "text": "2.1 Header 2\nHeader 3\nHeader 4\nHeader 5\nHeader 6"
+    "title": "Machine Learning Fundamentals",
+    "section": "\n6.1 Header 2",
+    "text": "6.1 Header 2\nHeader 3\nHeader 4\nHeader 5\nHeader 6"
   },
   {
     "objectID": "content/01_journal/02_data_acquisition.html",
