@@ -2,9 +2,18 @@
 title: "05_Explaining_Black-Box_Models_With_LIME"
 author: "Danny Jordan"
 ---
-TESTTEST
+
+### Unfortunately I am not able to finish this task. I do not fully understand how I should tackle this task.
+### I'm not sure if data_processing_pipeline.R is the problem, because it was not provided and safed by myself
+### Or is it the wrong model, since it was not trained with the data loaded?
+
+
+
+
 # Load Libraries
-```{r}
+
+
+# Load data and explaination
 
 
 library(rsample)
@@ -16,7 +25,6 @@ library(tidyquant)
 library(lime)
 library(ggplot2)
 
-```
 # Load Data
 employee_attrition_tbl <- read_csv("C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/datasets-1067-1925-WA_Fn-UseC_-HR-Employee-Attrition.txt")
 definitions_raw_tbl    <- read_excel("C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/data_definitions.xlsx", sheet = 1, col_names = FALSE)
@@ -34,7 +42,6 @@ split_obj <- rsample::initial_split(employee_attrition_readable_tbl, prop = 0.85
 train_readable_tbl <- training(split_obj)
 test_readable_tbl  <- testing(split_obj)
 
-
 # ML Preprocessing Recipe 
 recipe_obj <- recipe(Attrition ~ ., data = train_readable_tbl) %>%
   step_zv(all_predictors()) %>%
@@ -46,14 +53,12 @@ recipe_obj
 train_tbl <- bake(recipe_obj, new_data = train_readable_tbl)
 test_tbl  <- bake(recipe_obj, new_data = test_readable_tbl)
 
-
 # 2. Models ----
 
 h2o.init()
 
 automl_leader <- h2o.loadModel("C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/Challeng3_automated_machine_learning_h2O/StackedEnsemble_BestOfFamily_3_AutoML_2_20230615_64046")
 automl_leader
-
 
 # 3. LIME ----
 
@@ -110,4 +115,80 @@ explanation
 explanation %>%
   as.tibble() %>%
   select(feature:prediction)
+
+
+
+# Try approach with went back order data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Required Libraries
+library(tidyverse)
+library(readxl)
+library(purrr)
+library(dplyr)
+library(recipes)
+library(rsample)
+library(h2o)
+
+
+# Initialize H2O
+h2o_connection <- h2o.init()
+
+# Read and Split Data
+product_backorders_tbl <- read_csv("C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/product_backorders.csv")
+#test print
+#product_backorders_tbl
+set_seed <- 1205
+split_obj <- rsample::initial_split(product_backorders_tbl, prop = 0.85)
+train_data_tbl <- training(split_obj)
+test_data_tbl <- testing(split_obj)
+train_data_tbl
+test_data_tbl
+# Data Preparation
+recipe_obj <- recipe(went_on_backorder ~ ., data = train_data_tbl) %>%
+  step_zv(all_predictors()) %>%
+  prep()
+
+train_prepared_tbl <- bake(recipe_obj, new_data = train_data_tbl)
+test_prepared_tbl <- bake(recipe_obj, new_data = test_data_tbl)
+
+
+# 2. Models ----
+
+h2o.init()
+
+automl_leader <- h2o.loadModel("C:/Users/jorda/OneDrive/Dokumente/GitHub/ss23-bdml-danny-jordan/Challeng3_automated_machine_learning_h2O/StackedEnsemble_BestOfFamily_3_AutoML_2_20230615_64046")
+automl_leader
+
+# 3. LIME ----
+
+# 3.1 Making Predictions ----
+
+
+predictions_tbl <- automl_leader %>% 
+  h2o.predict(newdata = as.h2o(test_tbl)) %>%
+  as.tibble() %>%
+  bind_cols(
+    test_tbl %>%
+      select(Attrition, EmployeeNumber)
+  )
+
+
+
+
+
+
+
 

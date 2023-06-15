@@ -1,6 +1,16 @@
 ---
 title: "Machine Learning Fundamentals"
 author: "Danny Jordan"
+date: "2023-15-06"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+    collapsed: false
+    number_sections: true
+    toc_depth: 3
+    #code_folding: hide
 ---
 
 
