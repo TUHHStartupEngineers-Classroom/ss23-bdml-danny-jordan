@@ -1,6 +1,6 @@
 ---
-title: "Machine Learning Fundamentals"
-author: "Danny Jordan"
+title: "TidyverseTTTT"
+author: "Joschka Schwarz"
 ---
 
 
